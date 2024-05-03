@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 2</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .container {
+    display: flex;
+}
+
+.page {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-right: 20px;
+}
+
+.properties {
+    width: 200px;
+}
+
+.properties input {
+    margin-bottom: 10px;
+}
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+        <div id="page" class="page" contenteditable="true">
+            <h1>Selectable Text</h1>
+            <p>This is a paragraph of text.</p>
+            <img src="qr.jpg`" alt="Image">
+        </div>
+    </div>
+    
+    <div class="properties">
+        <h2>Selected Text Properties</h2>
+        <label for="fontSize">Font Size:</label>
+        <input type="range" id="fontSize" min="12" max="36" value="16">
+        <br>
+        <label for="elementSize">Element Size:</label>
+        <input type="range" id="elementSize" min="50" max="300" value="200">
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    const page = document.getElementById("page");
+
+    page.addEventListener("mouseup", function() {
+        const selection = window.getSelection();
+        const selectedText = selection.toString().trim();
+
+        if (selectedText !== "") {
+            // Set font size of selected text
+            const fontSizeSlider = document.getElementById("fontSize");
+            fontSizeSlider.value = window.getComputedStyle(selection.focusNode.parentElement).fontSize.replace("px", "");
+
+            // Set size of selected element
+            const elementSizeSlider = document.getElementById("elementSize");
+            elementSizeSlider.value = selection.focusNode.parentElement.offsetWidth;
+
+            // Add event listeners for sliders
+            fontSizeSlider.addEventListener("input", function() {
+                selection.focusNode.parentElement.style.fontSize = this.value + "px";
+            });
+
+            elementSizeSlider.addEventListener("input", function() {
+                selection.focusNode.parentElement.style.width = this.value + "px";
+            });
+        }
+    });
+});
+    </script>
+
+</body>
+</html>
