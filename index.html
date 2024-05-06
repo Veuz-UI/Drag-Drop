@@ -417,6 +417,86 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const fontSizeSlider = document.getElementById("fontSize");
+            const marginSlider = document.getElementById("marginRange");
+            const fontWeightSlider = document.getElementById("fontWeight");
+            const paddingSlider = document.getElementById("padding");
+            const textElements = document.querySelectorAll("#page h1, #page h3");
+
+            textElements.forEach(function (element) {
+                element.addEventListener("click", function (event) {
+                    const target = event.target;
+
+                    // Clear previous selections
+                    clearSelections();
+
+                    // Select the clicked text
+                    const selection = window.getSelection();
+                    const range = document.createRange();
+                    range.selectNodeContents(target);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+
+                    // Set font size of selected text
+                    fontSizeSlider.value = parseInt(window.getComputedStyle(target).fontSize);
+
+                    // Set margin of selected text
+                    marginSlider.value = parseInt(window.getComputedStyle(target).margin);
+
+                    // Set font weight of selected text
+                    fontWeightSlider.value = parseInt(window.getComputedStyle(target).fontWeight);
+
+                    // Set padding of selected text
+                    paddingSlider.value = parseInt(window.getComputedStyle(target).padding);
+
+
+                    // Add event listener for font size slider input
+                    fontSizeSlider.addEventListener("input", function () {
+                        target.style.fontSize = this.value + "px";
+                    });
+
+                    // Add event listener for margin slider input
+                    marginSlider.addEventListener("input", function () {
+                        target.style.margin = this.value + "px";
+                    });
+
+                    // Add event listener for font weight slider input
+                    fontWeightSlider.addEventListener("input", function () {
+                        target.style.fontWeight = this.value;
+                    });
+
+                    // Add event listener for padding slider input
+                    paddingSlider.addEventListener("input", function () {
+                        target.style.padding = this.value + "px";
+                    });
+
+                    // Prevent event propagation to avoid triggering for other text elements
+                    event.stopPropagation();
+                });
+            });
+
+            // Function to clear selections
+            function clearSelections() {
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+            }
+        });
+
+
+
+
+
     </script>
 
 </body>

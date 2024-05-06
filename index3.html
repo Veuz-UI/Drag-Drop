@@ -21,15 +21,19 @@
             <div class="grid_row">
                 <div class="blank_space">
                     <div class="selected_page">
+
+
+
+                        
                         <div id="page">
-
-                            <img src="qr.png" id="qrImage" width="100" height="100" alt="Image">
-
-                            <h3 id="text1">Text 1</h3>
-
-                            <h6 id="text2">Text 2</h6>
+                            <div class="page-contents">
+                                <img src="qr.png" id="qrImage" width="100" height="100" alt="Image">
 
 
+                                <h3 id="text1" class="text">Text 1</h3>
+
+                                <h1 id="text2" class="text">Text 2</h1>
+                            </div>
 
 
                         </div>
@@ -90,7 +94,7 @@
 
                     <div class="margin">
                         <label for="margin">Margin:</label>
-                        <input type="range" min="0" max="1000" value="10" class="slider" id="marginRange">
+                        <input type="range" min="0" max="1000" value="0" class="slider" id="marginRange">
                     </div>
 
                     <div class="font_weight">
@@ -106,6 +110,11 @@
                     <div class="padding">
                         <label for="padding">Padding:</label>
                         <input type="range" id="padding" min="0" max="50" value="0">
+                    </div>
+
+
+                    <div class="print_btn mt-5">
+                        <button target="_blank" class="btn btn-primary" onclick="printPage()">Print</button>
                     </div>
 
                 </div>
@@ -124,11 +133,69 @@
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+
+
         $(function () {
             $("#text1").draggable();
             $("#qrImage").draggable();
             $("#text2").draggable();
         });
+
+        const fontSizeSlider = document.getElementById('fontSize');
+        const marginSlider = document.getElementById('marginRange');
+        const paddingSlider = document.getElementById('padding');
+        const fontWeightSlider = document.getElementById('fontWeight');
+        const colorPicker = document.getElementById('fontColorPicker');
+        const textElements = document.getElementsByClassName('text');
+
+        let clickedTextElement = null;
+        let initialColor = null;
+
+        // Add click event listeners to all text elements
+        for (let i = 0; i < textElements.length; i++) {
+            textElements[i].addEventListener('click', function () {
+                // Store the clicked text element
+                clickedTextElement = this;
+
+                // Update the sliders and color picker to match the style of the clicked text element
+                fontSizeSlider.value = parseInt(window.getComputedStyle(clickedTextElement).fontSize);
+                marginSlider.value = parseInt(window.getComputedStyle(clickedTextElement).margin);
+                paddingSlider.value = parseInt(window.getComputedStyle(clickedTextElement).padding);
+                fontWeightSlider.value = parseInt(window.getComputedStyle(clickedTextElement).fontWeight);
+                colorPicker.value = window.getComputedStyle(clickedTextElement).color;
+
+                // Store the initial color of the clicked text element
+                initialColor = colorPicker.value;
+            });
+        }
+
+        // Add input event listeners to the sliders and color picker
+        fontSizeSlider.addEventListener('input', applyStyle);
+        marginSlider.addEventListener('input', applyStyle);
+        paddingSlider.addEventListener('input', applyStyle);
+        fontWeightSlider.addEventListener('input', applyStyle);
+        colorPicker.addEventListener('input', applyStyle);
+
+        function applyStyle() {
+            // Apply styles to the clicked text element
+            if (clickedTextElement) {
+                clickedTextElement.style.fontSize = fontSizeSlider.value + 'px';
+                clickedTextElement.style.margin = marginSlider.value + 'px';
+                clickedTextElement.style.padding = paddingSlider.value + 'px';
+                clickedTextElement.style.fontWeight = fontWeightSlider.value;
+
+                // Apply color if it's changed, otherwise keep the initial color
+                if (colorPicker.value !== initialColor) {
+                    clickedTextElement.style.color = colorPicker.value;
+                } else {
+                    clickedTextElement.style.color = initialColor;
+                }
+            }
+        }
+
+
+
+
 
 
 
@@ -191,7 +258,7 @@
 
 
 
-        // image width and height
+        // QR image width and height
         document.addEventListener("DOMContentLoaded", function () {
             const image = document.getElementById("qrImage");
 
@@ -208,80 +275,38 @@
             });
         });
 
-        //  font size 
-        document.addEventListener("DOMContentLoaded", function () {
-            const fontSizeSlider = document.getElementById("fontSize");
-            const marginSlider = document.getElementById("marginRange");
-            const fontWeightSlider = document.getElementById("fontWeight");
-            const paddingSlider = document.getElementById("padding");
-            const textElements = document.querySelectorAll("#page h1, #page h3");
-
-            textElements.forEach(function (element) {
-                element.addEventListener("click", function (event) {
-                    const target = event.target;
-
-                    // Clear previous selections
-                    clearSelections();
-
-                    // Select the clicked text
-                    const selection = window.getSelection();
-                    const range = document.createRange();
-                    range.selectNodeContents(target);
-                    selection.removeAllRanges();
-                    selection.addRange(range);
-
-                    // Set font size of selected text
-                    fontSizeSlider.value = parseInt(window.getComputedStyle(target).fontSize);
-
-                    // Set margin of selected text
-                    marginSlider.value = parseInt(window.getComputedStyle(target).margin);
-
-                    // Set font weight of selected text
-                    fontWeightSlider.value = parseInt(window.getComputedStyle(target).fontWeight);
-
-                    // Set padding of selected text
-                    paddingSlider.value = parseInt(window.getComputedStyle(target).padding);
 
 
-                    // Add event listener for font size slider input
-                    fontSizeSlider.addEventListener("input", function () {
-                        target.style.fontSize = this.value + "px";
-                    });
 
-                    // Add event listener for margin slider input
-                    marginSlider.addEventListener("input", function () {
-                        target.style.margin = this.value + "px";
-                    });
-
-                    // Add event listener for font weight slider input
-                    fontWeightSlider.addEventListener("input", function () {
-                        target.style.fontWeight = this.value;
-                    });
-
-                    // Add event listener for padding slider input
-                    paddingSlider.addEventListener("input", function () {
-                        target.style.padding = this.value + "px";
-                    });
-
-                    // Prevent event propagation to avoid triggering for other text elements
-                    event.stopPropagation();
-                });
-            });
-
-            // Function to clear selections
-            function clearSelections() {
-                const selection = window.getSelection();
-                selection.removeAllRanges();
+        document.getElementById("pagesize").addEventListener("change", function () {
+            var selectedSize = this.value;
+            if (selectedSize === "custom") {
+                // Show custom size input fields or implement custom size logic here
+                console.log("Custom size selected!");
+            } else {
+                // Set the page size according to the selected option (A4 or A5)
+                setPageSize(selectedSize);
             }
         });
 
+        function setPageSize(size) {
+            console.log("Page size set to " + size);
+            // Implement logic to adjust the page size based on the selected option
+        }
 
+        function printPage() {
+            var pageContent = document.getElementById("page").innerHTML;
+            var originalContent = document.body.innerHTML;
 
+            // Set the content of the entire page to the content of the div with id "page"
+            document.body.innerHTML = pageContent;
 
-        $("#fontColorPicker").change(function () {
-            var selectedColor = $(this).val();
-            $("#text1").css("color", selectedColor);
-        });
+            // Print the page
+            window.print();
+
+            // Restore the original content of the page
+            document.body.innerHTML = originalContent;
+        }
 
 
 
