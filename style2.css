@@ -73,12 +73,23 @@ body {
 
 #qrImage {
     position: absolute !important;
-    margin: 100px 0;
+    /* margin: 100px 0; */
+    top: 0;
+    left: 0;
 }
 
 #text1{
     position: absolute !important;
-    border: 1px solid #000;
+    /* border: 1px solid #000; */
+    top: 100px;
+    left: 0;
+
+}
+#text2{
+    position: absolute !important;
+    /* border: 1px solid #000; */
+    top: 150px;
+    left: 0;
 
 }
 #text1::selection{
@@ -89,8 +100,8 @@ body {
     background-color: transparent;
     border: none !important;
 }
-#text2{
+/* #text2{
     margin-top: 50px;
-}
+} */
 
 

@@ -22,9 +22,6 @@
                 <div class="blank_space">
                     <div class="selected_page">
 
-
-
-                        
                         <div id="page">
                             <div class="page-contents">
                                 <img src="qr.png" id="qrImage" width="100" height="100" alt="Image">
@@ -92,10 +89,10 @@
                         <input type="range" id="fontSize" min="12" max="150" value="16">
                     </div>
 
-                    <div class="margin">
+                    <!-- <div class="margin">
                         <label for="margin">Margin:</label>
                         <input type="range" min="0" max="1000" value="0" class="slider" id="marginRange">
-                    </div>
+                    </div> -->
 
                     <div class="font_weight">
                         <label for="fontWeight">Font Weight:</label>
@@ -107,9 +104,35 @@
                         <label for="font-color">Change Color</label>
                     </div>
 
-                    <div class="padding">
+                    <!-- <div class="padding">
                         <label for="padding">Padding:</label>
                         <input type="range" id="padding" min="0" max="50" value="0">
+                    </div> -->
+
+                    <div class="margin">
+                        <label for="marginTop">Margin Top:</label>
+                        <input type="range" min="0" max="500" value="0" class="slider" id="marginTop">
+                        <!-- <label for="marginBottom">Margin Bottom:</label>
+                        <input type="range" min="0" max="500" value="0" class="slider" id="marginBottom"> -->
+                    </div>
+                    <div class="margin">
+                        <label for="marginLeft">Margin Left:</label>
+                        <input type="range" min="0" max="500" value="0" class="slider" id="marginLeft">
+                        <!-- <label for="marginRight">Margin Right:</label>
+                        <input type="range" min="0" max="500" value="0" class="slider" id="marginRight"> -->
+                    </div>
+
+                    <div class="padding">
+                        <label for="paddingTop">Padding Top:</label>
+                        <input type="range" min="0" max="500" value="0" class="slider" id="paddingTop">
+                        <!-- <label for="paddingBottom">Padding Bottom:</label>.
+                        <input type="range" min="0" max="500" value="0" class="slider" id="paddingBottom"> -->
+                    </div>
+                    <div class="padding">
+                        <label for="paddingLeft">Padding Left:</label>
+                        <input type="range" min="0" max="500" value="0" class="slider" id="paddingLeft">
+                        <!-- <label for="paddingRight">Padding Right:</label>
+                        <input type="range" min="0" max="500" value="0" class="slider" id="paddingRight"> -->
                     </div>
 
 
@@ -141,12 +164,30 @@
             $("#text2").draggable();
         });
 
+
+        const marginTopSlider = document.getElementById('marginTop');
+        // const marginBottomSlider = document.getElementById('marginBottom');
+        const marginLeftSlider = document.getElementById('marginLeft');
+        // const marginRightSlider = document.getElementById('marginRight');
+        const paddingTopSlider = document.getElementById('paddingTop');
+        // const paddingBottomSlider = document.getElementById('paddingBottom');
+        const paddingLeftSlider = document.getElementById('paddingLeft');
+        // const paddingRightSlider = document.getElementById('paddingRight');
+
+
         const fontSizeSlider = document.getElementById('fontSize');
-        const marginSlider = document.getElementById('marginRange');
-        const paddingSlider = document.getElementById('padding');
+        // const marginSlider = document.getElementById('marginRange');
+        // const paddingSlider = document.getElementById('padding');
         const fontWeightSlider = document.getElementById('fontWeight');
         const colorPicker = document.getElementById('fontColorPicker');
         const textElements = document.getElementsByClassName('text');
+
+
+
+
+
+
+
 
         let clickedTextElement = null;
         let initialColor = null;
@@ -171,18 +212,45 @@
 
         // Add input event listeners to the sliders and color picker
         fontSizeSlider.addEventListener('input', applyStyle);
-        marginSlider.addEventListener('input', applyStyle);
-        paddingSlider.addEventListener('input', applyStyle);
+        // marginSlider.addEventListener('input', applyStyle);
+        // paddingSlider.addEventListener('input', applyStyle);
         fontWeightSlider.addEventListener('input', applyStyle);
         colorPicker.addEventListener('input', applyStyle);
+
+        marginTopSlider.addEventListener('input', applyStyle);
+        // marginBottomSlider.addEventListener('input', applyStyle);
+        marginLeftSlider.addEventListener('input', applyStyle);
+        // marginRightSlider.addEventListener('input', applyStyle);
+        paddingTopSlider.addEventListener('input', applyStyle);
+        // paddingBottomSlider.addEventListener('input', applyStyle);
+        paddingLeftSlider.addEventListener('input', applyStyle);
+        // paddingRightSlider.addEventListener('input', applyStyle);
 
         function applyStyle() {
             // Apply styles to the clicked text element
             if (clickedTextElement) {
                 clickedTextElement.style.fontSize = fontSizeSlider.value + 'px';
-                clickedTextElement.style.margin = marginSlider.value + 'px';
-                clickedTextElement.style.padding = paddingSlider.value + 'px';
+                // clickedTextElement.style.margin = marginSlider.value + 'px';
+                // clickedTextElement.style.padding = paddingSlider.value + 'px';
                 clickedTextElement.style.fontWeight = fontWeightSlider.value;
+
+                const marginTop = marginTopSlider.value + 'px';
+                // const marginBottom = marginBottomSlider.value + 'px';
+                const marginLeft = marginLeftSlider.value + 'px';
+                // const marginRight = marginRightSlider.value + 'px';
+                const paddingTop = paddingTopSlider.value + 'px';
+                // const paddingBottom = paddingBottomSlider.value + 'px';
+                const paddingLeft = paddingLeftSlider.value + 'px';
+                // const paddingRight = paddingRightSlider.value + 'px';
+
+                clickedTextElement.style.marginTop = marginTop;
+                // clickedTextElement.style.marginBottom = marginBottom;
+                clickedTextElement.style.marginLeft = marginLeft;
+                // clickedTextElement.style.marginRight = marginRight;
+                clickedTextElement.style.paddingTop = paddingTop;
+                // clickedTextElement.style.paddingBottom = paddingBottom;
+                clickedTextElement.style.paddingLeft = paddingLeft;
+                // clickedTextElement.style.paddingRight = paddingRight;
 
                 // Apply color if it's changed, otherwise keep the initial color
                 if (colorPicker.value !== initialColor) {
@@ -294,6 +362,9 @@
             // Implement logic to adjust the page size based on the selected option
         }
 
+
+
+
         function printPage() {
             var pageContent = document.getElementById("page").innerHTML;
             var originalContent = document.body.innerHTML;
@@ -304,9 +375,39 @@
             // Print the page
             window.print();
 
-            // Restore the original content of the page
+            // Restore the original content of the page after printing or canceling print
             document.body.innerHTML = originalContent;
+
+            // Re-attach event listeners and re-initialize draggable elements
+            attachEventListeners();
+            initializeDraggableElements();
         }
+
+        // Function to attach event listeners to text elements
+        function attachEventListeners() {
+            const textElements = document.getElementsByClassName('text');
+            for (let i = 0; i < textElements.length; i++) {
+                textElements[i].addEventListener('click', function () {
+                    // Your existing click event listener logic here
+                });
+            }
+        }
+
+        // Function to initialize draggable elements
+        function initializeDraggableElements() {
+            $(function () {
+                $("#text1").draggable();
+                $("#qrImage").draggable();
+                $("#text2").draggable();
+            });
+        }
+
+        // Call these functions to re-attach event listeners and re-initialize draggable elements after canceling print
+        attachEventListeners();
+        initializeDraggableElements();
+
+
+
 
 
 
