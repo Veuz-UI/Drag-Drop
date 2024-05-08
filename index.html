@@ -11,7 +11,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 
-
 </head>
 
 <body>
@@ -21,19 +20,16 @@
             <div class="grid_row">
                 <div class="blank_space">
                     <div class="selected_page">
+
                         <div id="page">
+                            <div class="page-contents">
+                                <img src="qr.png" id="qrImage" width="100" height="100" alt="Image">
 
-                            <img src="qr.png" id="qrImage" width="100" height="100" alt="Image">
 
-                            <p id="draggableOne">Text 1</p>
+                                <h3 id="text1" class="text">Text 1</h3>
 
-                            <p id="draggableTwo">Text 2</p>
-
-                            <div id="imageWrapper" style="display: none;">
-                                <img id="uploadedImage" src="#" alt="Uploaded Image">
+                                <h1 id="text2" class="text">Text 2</h1>
                             </div>
-
-
 
                         </div>
                     </div>
@@ -45,8 +41,9 @@
                         <div id="content">
                             <label for="pagesize">Select Page Size:</label>
                             <select id="pagesize" class="form-select" onchange="changePageSize()">
-                                <option value="a4">A4</option>
+
                                 <option value="a5">A5</option>
+                                <option value="a4">A4</option>
                                 <option value="custom">Custom</option>
                             </select>
                             <div id="customSizeInputs" style="display:none;">
@@ -80,64 +77,59 @@
                         </div>
                     </div>
 
+                    <div class="qr_code_width_height">
+                        <label for="imageSize">QR Code Size:</label>
+                        <input type="range" id="imageSize" min="50" max="300" value="100">
+                    </div>
 
-                    <!-- fontsize increse decrease -->
+                    <div class="font_size">
+                        <label for="fontSize">Font Size:</label>
+                        <input type="range" id="fontSize" min="12" max="150" value="16">
+                    </div>
 
-                    <label for="fontSize">Font Size:</label>
-                    <input type="range" id="fontSize" min="12" max="36" value="16">
-
-                    <!-- <div class="font_size">
-                        <button id="reduceFontSize"><i class="ri-subtract-line"></i></button>
-                        <span>Font Size</span>
-                        <button id="increaseFontSize"><i class="ri-add-line"></i></button>
+                    <!-- <div class="margin">
+                        <label for="margin">Margin:</label>
+                        <input type="range" min="0" max="1000" value="0" class="slider" id="marginRange">
                     </div> -->
 
                     <div class="font_weight">
-                        <button id="reduceFontWeight"><i class="ri-subtract-line"></i></button>
-                        <span>Font Weight</span>
-                        <button id="increaseFontWeight"><i class="ri-add-line"></i></button>
+                        <label for="fontWeight">Font Weight:</label>
+                        <input type="range" id="fontWeight" min="100" max="900" step="100" value="400">
                     </div>
-
 
                     <div class="font_color">
                         <input type="color" id="fontColorPicker">
                         <label for="font-color">Change Color</label>
                     </div>
 
-                    <!-- image upload -->
-                    <div id="imageContainer">
-                        <input type="file" id="uploadImageInput">
-                        <div id="sizeAdjustmentButtons" style="display: none;">
-                            <button id="increaseSize"><i class="ri-add-line"></i></button>
-                            <label for="imagesize">Change Size</label>
-                            <button id="decreaseSize"><i class="ri-subtract-line"></i></button>
-                        </div>
+                    <!-- <div class="padding">
+                        <label for="padding">Padding:</label>
+                        <input type="range" id="padding" min="0" max="50" value="0">
+                    </div> -->
 
+                    <div class="margin">
+                        <label for="marginTop">Margin Top:</label>
+                        <input type="range" min="0" max="500" value="0" class="slider" id="marginTop">
+
+                    </div>
+                    <div class="margin">
+                        <label for="marginLeft">Margin Left:</label>
+                        <input type="range" min="0" max="500" value="0" class="slider" id="marginLeft">
+                    </div>
+
+                    <div class="padding">
+                        <label for="paddingTop">Padding Top:</label>
+                        <input type="range" min="0" max="500" value="0" class="slider" id="paddingTop">
+                    </div>
+                    <div class="padding">
+                        <label for="paddingLeft">Padding Left:</label>
+                        <input type="range" min="0" max="500" value="0" class="slider" id="paddingLeft">
                     </div>
 
 
-                    <!-- margin and padding -->
-
-
-
-                    <input type="range" min="0" max="1000" value="10" class="slider" id="marginRange">
-                    <br>
-                    <br>
-
-                    <input type="range" min="0" max="1000" value="10" class="slider" id="paddingRange">
-                    <br>
-                    <div style="margin-top: 100px;"></div>
-
-                    <label for="fontSize">Font Size:</label>
-                    <input type="range" id="fontSize" min="12" max="500" value="16">
-
-                    <div style="margin-top: 100px;"></div>
-
-                    <div class="qr_code_width_height">
-                        <label for="size">QR Code Size:</label>
-                        <input type="range" id="size" min="50" max="200" value="100">
+                    <div class="print_btn mt-5">
+                        <button  class="btn btn-primary" onclick="printPage()">Print</button>
                     </div>
-
 
                 </div>
             </div>
@@ -147,22 +139,122 @@
 
 
 
-
-
-
-
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+
+        // Drag Elements Start
+
         $(function () {
-            $("#draggableOne").draggable();
+            $("#text1").draggable();
             $("#qrImage").draggable();
-            $("#draggableTwo").draggable();
-            $("#imageWrapper").draggable();
+            $("#text2").draggable();
         });
 
+        // Drag Elements End
 
+
+        // Margin and Padding Start
+
+        const marginTopSlider = document.getElementById('marginTop');
+        const marginLeftSlider = document.getElementById('marginLeft');
+        const paddingTopSlider = document.getElementById('paddingTop');
+        const paddingLeftSlider = document.getElementById('paddingLeft');
+
+        const fontSizeSlider = document.getElementById('fontSize');
+        const fontWeightSlider = document.getElementById('fontWeight');
+        const colorPicker = document.getElementById('fontColorPicker');
+        const textElements = document.getElementsByClassName('text');
+
+        let clickedTextElement = null;
+        let initialColor = null;
+
+        // Function to set initial values of sliders and color picker based on clicked text element
+        function setInitialValues(element) {
+            fontSizeSlider.value = parseInt(window.getComputedStyle(element).fontSize);
+            fontWeightSlider.value = parseInt(window.getComputedStyle(element).fontWeight);
+            colorPicker.value = window.getComputedStyle(element).color;
+
+            // Store the initial color of the clicked text element
+            initialColor = colorPicker.value;
+
+            // Get the margin and padding values of the clicked element
+            const computedStyle = window.getComputedStyle(element);
+            const marginTop = parseInt(computedStyle.marginTop);
+            const marginLeft = parseInt(computedStyle.marginLeft);
+            const paddingTop = parseInt(computedStyle.paddingTop);
+            const paddingLeft = parseInt(computedStyle.paddingLeft);
+
+            // Update the sliders with the margin and padding values
+            marginTopSlider.value = marginTop;
+            marginLeftSlider.value = marginLeft;
+            paddingTopSlider.value = paddingTop;
+            paddingLeftSlider.value = paddingLeft;
+        }
+
+        // Add click event listeners to all text elements
+        for (let i = 0; i < textElements.length; i++) {
+            textElements[i].addEventListener('click', function () {
+                // Store the clicked text element
+                clickedTextElement = this;
+
+                // Set initial values of sliders and color picker
+                setInitialValues(clickedTextElement);
+            });
+        }
+
+        // Add input event listeners to the sliders and color picker
+        fontSizeSlider.addEventListener('input', applyStyle);
+        fontWeightSlider.addEventListener('input', applyStyle);
+        colorPicker.addEventListener('input', applyStyle);
+
+        marginTopSlider.addEventListener('input', applyMargin);
+        marginLeftSlider.addEventListener('input', applyMargin);
+        paddingTopSlider.addEventListener('input', applyPadding);
+        paddingLeftSlider.addEventListener('input', applyPadding);
+
+        function applyStyle() {
+            // Apply styles to the clicked text element
+            if (clickedTextElement) {
+                clickedTextElement.style.fontSize = fontSizeSlider.value + 'px';
+                clickedTextElement.style.fontWeight = fontWeightSlider.value;
+
+                // Apply color if it's changed, otherwise keep the initial color
+                if (colorPicker.value !== initialColor) {
+                    clickedTextElement.style.color = colorPicker.value;
+                } else {
+                    clickedTextElement.style.color = initialColor;
+                }
+            }
+        }
+
+        function applyMargin() {
+            // Apply margin styles to the clicked text element
+            if (clickedTextElement) {
+                const marginTop = marginTopSlider.value + 'px';
+                const marginLeft = marginLeftSlider.value + 'px';
+                clickedTextElement.style.marginTop = marginTop;
+                clickedTextElement.style.marginLeft = marginLeft;
+            }
+        }
+
+        function applyPadding() {
+            // Apply padding styles to the clicked text element
+            if (clickedTextElement) {
+                const paddingTop = paddingTopSlider.value + 'px';
+                const paddingLeft = paddingLeftSlider.value + 'px';
+                clickedTextElement.style.paddingTop = paddingTop;
+                clickedTextElement.style.paddingLeft = paddingLeft;
+            }
+        }
+
+
+        // Margin and Padding End
+
+
+
+        // Page Select change start
 
         function changePageSize() {
             var selectBox = document.getElementById("pagesize");
@@ -218,281 +310,100 @@
             page.style.height = height + "mm";
         }
 
+        // Page Select change End
 
 
+        // QR image width and height Start
 
-        // Reduce font size when button is clicked
-        // $("#reduceFontSize").click(function () {
-        //     var currentFontSize = parseInt($("#draggableOne").css("font-size"));
-        //     var newFontSize = currentFontSize - 1;
-        //     $("#draggableOne").css("font-size", newFontSize + "px");
-        // });
-
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const page = document.getElementById("page");
-
-            // Function to update font size of selected text
-            function updateFontSize() {
-                const fontSize = document.getElementById("fontSize").value;
-                const selection = window.getSelection();
-                if (selection.rangeCount > 0) {
-                    const range = selection.getRangeAt(0);
-                    const selectedText = range.cloneContents();
-                    const span = document.createElement("span");
-                    span.style.fontSize = fontSize + "px";
-                    span.appendChild(selectedText);
-                    range.deleteContents();
-                    range.insertNode(span);
-                }
-            }
-
-            // Event listener for font size slider input
-            document.getElementById("fontSize").addEventListener("input", function () {
-                updateFontSize();
-            });
-        });
-
-
-        // Increase font size when button is clicked
-        $("#increaseFontSize").click(function () {
-            var currentFontSize = parseInt($("#draggableOne").css("font-size"));
-            var newFontSize = currentFontSize + 1;
-            $("#draggableOne").css("font-size", newFontSize + "px");
-        });
-
-
-        // Reduce font weight when button is clicked
-        $("#reduceFontWeight").click(function () {
-            var currentWeight = parseInt($("#draggableOne").css("font-weight"));
-            var newWeight = currentWeight - 100;
-            if (newWeight >= 100) {
-                $("#draggableOne").css("font-weight", newWeight);
-            }
-        });
-
-        // Increase font weight when button is clicked
-        $("#increaseFontWeight").click(function () {
-            var currentWeight = parseInt($("#draggableOne").css("font-weight"));
-            var newWeight = currentWeight + 100;
-            if (newWeight <= 900) {
-                $("#draggableOne").css("font-weight", newWeight);
-            }
-        });
-
-
-
-        // Change font color when color picker value changes
-        $("#fontColorPicker").change(function () {
-            var selectedColor = $(this).val();
-            $("#draggableOne").css("color", selectedColor);
-        });
-
-
-        // upload image
-
-        document.getElementById('uploadImageInput').addEventListener('change', function (event) {
-            var file = event.target.files[0];
-            if (file) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    var img = document.getElementById('uploadedImage');
-                    img.src = e.target.result;
-                    document.getElementById('sizeAdjustmentButtons').style.display = 'block';
-                    document.getElementById('imageWrapper').style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        document.getElementById('increaseSize').addEventListener('click', function () {
-            var img = document.getElementById('uploadedImage');
-            var currentWidth = img.width;
-            var currentHeight = img.height;
-            img.width = currentWidth * 1.1; // Increase width by 10%
-            img.height = currentHeight * 1.1; // Increase height by 10%
-        });
-
-        document.getElementById('decreaseSize').addEventListener('click', function () {
-            var img = document.getElementById('uploadedImage');
-            var currentWidth = img.width;
-            var currentHeight = img.height;
-            img.width = currentWidth * 0.9; // Decrease width by 10%
-            img.height = currentHeight * 0.9; // Decrease height by 10%
-        });
-
-
-
-        // margin change 
-        function updateMargin() {
-            var slider = document.getElementById("marginRange");
-            var marginValue = slider.value;
-            var content = document.getElementById("draggableOne");
-            content.style.margin = marginValue + "px";
-            updateProgressBar();
-        }
-
-
-
-        // Event listener for slider input
-        document.getElementById("marginRange").addEventListener("input", function () {
-            updateMargin();
-        });
-
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const page = document.getElementById("page");
-
-            page.addEventListener("click", function (event) {
-                const target = event.target;
-
-                if (target.tagName === "H1" || target.tagName === "P") {
-                    // Clear previous selections
-                    clearSelections();
-
-                    // Select the clicked text
-                    const selection = window.getSelection();
-                    const range = document.createRange();
-                    range.selectNodeContents(target);
-                    selection.removeAllRanges();
-                    selection.addRange(range);
-
-                    // Set font size of selected text
-                    const fontSizeSlider = document.getElementById("fontSize");
-                    fontSizeSlider.value = window.getComputedStyle(target).fontSize.replace("px", "");
-
-
-                    // Add event listeners for sliders
-                    fontSizeSlider.addEventListener("input", function () {
-                        target.style.fontSize = this.value + "px";
-                    });
-
-                    elementSizeSlider.addEventListener("input", function () {
-                        target.style.width = this.value + "px";
-                    });
-                }
-            });
-
-            // Function to clear selections
-            function clearSelections() {
-                const selection = window.getSelection();
-                selection.removeAllRanges();
-            }
-        });
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // image width and height
         document.addEventListener("DOMContentLoaded", function () {
             const image = document.getElementById("qrImage");
 
             // Function to update image size
             function updateImageSize() {
-                const size = document.getElementById("size").value;
+                const size = document.getElementById("imageSize").value;
                 image.style.width = size + "px";
                 image.style.height = "auto";
             }
 
-            // Event listener for size slider input
-            document.getElementById("size").addEventListener("input", function () {
+            // Event listener for image size slider input
+            document.getElementById("imageSize").addEventListener("input", function () {
                 updateImageSize();
             });
         });
 
 
+        // QR image width and height End
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const fontSizeSlider = document.getElementById("fontSize");
-            const marginSlider = document.getElementById("marginRange");
-            const fontWeightSlider = document.getElementById("fontWeight");
-            const paddingSlider = document.getElementById("padding");
-            const textElements = document.querySelectorAll("#page h1, #page h3");
-
-            textElements.forEach(function (element) {
-                element.addEventListener("click", function (event) {
-                    const target = event.target;
-
-                    // Clear previous selections
-                    clearSelections();
-
-                    // Select the clicked text
-                    const selection = window.getSelection();
-                    const range = document.createRange();
-                    range.selectNodeContents(target);
-                    selection.removeAllRanges();
-                    selection.addRange(range);
-
-                    // Set font size of selected text
-                    fontSizeSlider.value = parseInt(window.getComputedStyle(target).fontSize);
-
-                    // Set margin of selected text
-                    marginSlider.value = parseInt(window.getComputedStyle(target).margin);
-
-                    // Set font weight of selected text
-                    fontWeightSlider.value = parseInt(window.getComputedStyle(target).fontWeight);
-
-                    // Set padding of selected text
-                    paddingSlider.value = parseInt(window.getComputedStyle(target).padding);
-
-
-                    // Add event listener for font size slider input
-                    fontSizeSlider.addEventListener("input", function () {
-                        target.style.fontSize = this.value + "px";
-                    });
-
-                    // Add event listener for margin slider input
-                    marginSlider.addEventListener("input", function () {
-                        target.style.margin = this.value + "px";
-                    });
-
-                    // Add event listener for font weight slider input
-                    fontWeightSlider.addEventListener("input", function () {
-                        target.style.fontWeight = this.value;
-                    });
-
-                    // Add event listener for padding slider input
-                    paddingSlider.addEventListener("input", function () {
-                        target.style.padding = this.value + "px";
-                    });
-
-                    // Prevent event propagation to avoid triggering for other text elements
-                    event.stopPropagation();
-                });
-            });
-
-            // Function to clear selections
-            function clearSelections() {
-                const selection = window.getSelection();
-                selection.removeAllRanges();
+        document.getElementById("pagesize").addEventListener("change", function () {
+            var selectedSize = this.value;
+            if (selectedSize === "custom") {
+                // Show custom size input fields or implement custom size logic here
+                console.log("Custom size selected!");
+            } else {
+                // Set the page size according to the selected option (A4 or A5)
+                setPageSize(selectedSize);
             }
         });
 
+        function setPageSize(size) {
+            console.log("Page size set to " + size);
+            // Implement logic to adjust the page size based on the selected option
+        }
+
+
+
+
+        function printPage() {
+            var pageContent = document.getElementById("page").innerHTML;
+            var originalContent = document.body.innerHTML;
+
+            // Set the content of the entire page to the content of the div with id "page"
+            document.body.innerHTML = pageContent;
+
+            // Print the page
+            window.print();
+
+            // Restore the original content of the page after printing or canceling print
+            document.body.innerHTML = originalContent;
+
+            // Re-attach event listeners and re-initialize draggable elements
+            restoreOriginalState();
+        }
+
+
+
+
+        // Function to re-attach event listeners and re-initialize draggable elements
+        function restoreOriginalState() {
+            // Re-attach event listeners
+            attachEventListeners();
+
+            // Re-initialize draggable elements
+            initializeDraggableElements();
+        }
+
+        // Function to attach event listeners to text elements
+        function attachEventListeners() {
+            const textElements = document.getElementsByClassName('text');
+            for (let i = 0; i < textElements.length; i++) {
+                textElements[i].addEventListener('click', function () {
+                    
+                });
+            }
+        }
+
+
+
+        // Function to initialize draggable elements
+        function initializeDraggableElements() {
+            $(function () {
+                $("#text1").draggable();
+                $("#qrImage").draggable();
+                $("#text2").draggable();
+            });
+        }
 
 
 
