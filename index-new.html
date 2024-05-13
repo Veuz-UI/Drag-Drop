@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag and Drope UI</title>
+    
+    <link rel="stylesheet" href="style-new.css">
+    
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    <section class="drag_drop_ui">
+        <div class="container">
+            <div class="grid_row">
+                <div class="blank_space">
+                    <div class="selected_page">
+
+                        <div id="page">
+                            <div class="page-contents">
+                                <h3 id="text1" class="text">Text 1</h3>
+                                <p id="name">Name: John Doe</p>
+                                <p id="company">Company: ABC Corporation</p>
+                                <p id="designation">Designation: CEO</p>
+                                <div id="qrCode"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="configuration_div">
+                    <div class="page_select">
+                        <div id="content">
+                            <label for="pagesize">Select Page Size:</label>
+                       
+                            
+                            <select id="pagesize" class="form-select page-select" onchange="changePageSize()">
+                                <option value="a6">A6</option>
+                                <option value="a4">A4</option>
+                                <option value="a5">A5</option>
+                                <option value="custom">Custom</option>
+                            </select>
+                            <div id="customSizeInputs" style="display:none;">
+                                <div class="width_height_flex_row">
+                                    <div class="width">
+                                        <div class="label_input">
+                                            <label for="customWidth">Width:</label>
+                                            <input class="form-control" type="number" id="customWidth" min="1">
+                                        </div>
+                                        <select id="widthUnit" class="form-select">
+                                            <option value="mm">mm</option>
+                                            <option value="cm">cm</option>
+                                            <option value="px">px</option>
+                                        </select>
+                                    </div>
+                                    <div class="height">
+                                        <div class="label_input">
+                                            <label for="customHeight">Height:</label>
+                                            <input class="form-control" type="number" id="customHeight" min="1">
+                                        </div>
+
+                                        <select id="heightUnit" class="form-select">
+                                            <option value="mm">mm</option>
+                                            <option value="cm">cm</option>
+                                            <option value="px">px</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+        // Page Select change start
+
+
+
+
+        function changePageSize() {
+            var selectBox = document.getElementById("pagesize");
+            var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+            var page = document.getElementById("page");
+            var customSizeInputs = document.getElementById("customSizeInputs");
+
+            if (selectedValue === "a4") {
+                page.style.width = "210mm";
+                page.style.height = "297mm";
+                customSizeInputs.style.display = "none";
+            } else if (selectedValue === "a5") {
+                page.style.width = "148mm";
+                page.style.height = "210mm";
+                customSizeInputs.style.display = "none";
+            } else if (selectedValue === "custom") {
+                customSizeInputs.style.display = "block";
+                page.style.width = ""; // Reset custom size
+                page.style.height = ""; // Reset custom size
+            }
+            else if (selectedValue === "a6") {
+                page.style.width = "105mm";
+                page.style.height = "148mm";
+                customSizeInputs.style.display = "none";
+            }
+        }
+
+        // Trigger initial page size setting
+        changePageSize();
+
+        // Listen for changes in custom width and height inputs
+        document.getElementById("customWidth").addEventListener("input", updatePageSize);
+        document.getElementById("customHeight").addEventListener("input", updatePageSize);
+        document.getElementById("widthUnit").addEventListener("change", updatePageSize);
+        document.getElementById("heightUnit").addEventListener("change", updatePageSize);
+
+        function updatePageSize() {
+            var width = document.getElementById("customWidth").value;
+            var height = document.getElementById("customHeight").value;
+            var widthUnit = document.getElementById("widthUnit").value;
+            var heightUnit = document.getElementById("heightUnit").value;
+            var page = document.getElementById("page");
+
+            // Convert units to mm
+            if (widthUnit === "cm") {
+                width *= 10; // 1 cm = 10 mm
+            } else if (widthUnit === "px") {
+                width *= 0.264583; // Approximately 1 px = 0.264583 mm (for standard 96 dpi)
+            }
+
+            if (heightUnit === "cm") {
+                height *= 10; // 1 cm = 10 mm
+            } else if (heightUnit === "px") {
+                height *= 0.264583; // Approximately 1 px = 0.264583 mm (for standard 96 dpi)
+            }
+
+            page.style.width = width + "mm";
+            page.style.height = height + "mm";
+        }
+
+        // Page Select change End
+
+
+        // Function to generate QR code
+        function generateQRCode(text, elementId) {
+            var qrCodeElement = document.getElementById(elementId);
+            qrCodeElement.innerHTML = ""; // Clear previous QR code if any
+            new QRCode(qrCodeElement, {
+                text: text,
+                width: 100, // Adjust as needed
+                height: 100 // Adjust as needed
+            });
+        }
+
+        // Update page content with name, company name, designation, and QR code
+        function updatePageContent() {
+            var name = "John Doe"; // Replace with actual name
+            var company = "ABC Corporation"; // Replace with actual company name
+            var designation = "CEO"; // Replace with actual designation
+            var qrText = name + "\n" + company + "\n" + designation;
+
+            // Update text elements
+            document.getElementById("name").textContent = "Name: " + name;
+            document.getElementById("company").textContent = "Company: " + company;
+            document.getElementById("designation").textContent = "Designation: " + designation;
+
+            // Generate QR code
+            generateQRCode(qrText, "qrCode");
+        }
+
+        // Call updatePageContent to populate the page initially
+        updatePageContent();
+
+
+
+
+        
+
+
+    </script>
+</body>
+
+</html>

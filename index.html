@@ -41,9 +41,8 @@
                         <div id="content">
                             <label for="pagesize">Select Page Size:</label>
                             <select id="pagesize" class="form-select" onchange="changePageSize()">
-
-                                <option value="a5">A5</option>
                                 <option value="a4">A4</option>
+                                <option value="a5">A5</option>
                                 <option value="custom">Custom</option>
                             </select>
                             <div id="customSizeInputs" style="display:none;">
@@ -97,10 +96,10 @@
                         <input type="range" id="fontWeight" min="100" max="900" step="100" value="400">
                     </div>
 
-                    <div class="font_color">
+                    <!-- <div class="font_color">
                         <input type="color" id="fontColorPicker">
                         <label for="font-color">Change Color</label>
-                    </div>
+                    </div> -->
 
                     <!-- <div class="padding">
                         <label for="padding">Padding:</label>
@@ -128,7 +127,7 @@
 
 
                     <div class="print_btn mt-5">
-                        <button  class="btn btn-primary" onclick="printPage()">Print</button>
+                        <button class="btn btn-primary" onclick="printPage()">Print</button>
                     </div>
 
                 </div>
@@ -164,7 +163,7 @@
 
         const fontSizeSlider = document.getElementById('fontSize');
         const fontWeightSlider = document.getElementById('fontWeight');
-        const colorPicker = document.getElementById('fontColorPicker');
+        // const colorPicker = document.getElementById('fontColorPicker');
         const textElements = document.getElementsByClassName('text');
 
         let clickedTextElement = null;
@@ -174,7 +173,7 @@
         function setInitialValues(element) {
             fontSizeSlider.value = parseInt(window.getComputedStyle(element).fontSize);
             fontWeightSlider.value = parseInt(window.getComputedStyle(element).fontWeight);
-            colorPicker.value = window.getComputedStyle(element).color;
+            // colorPicker.value = window.getComputedStyle(element).color;
 
             // Store the initial color of the clicked text element
             initialColor = colorPicker.value;
@@ -207,7 +206,7 @@
         // Add input event listeners to the sliders and color picker
         fontSizeSlider.addEventListener('input', applyStyle);
         fontWeightSlider.addEventListener('input', applyStyle);
-        colorPicker.addEventListener('input', applyStyle);
+        // colorPicker.addEventListener('input', applyStyle);
 
         marginTopSlider.addEventListener('input', applyMargin);
         marginLeftSlider.addEventListener('input', applyMargin);
@@ -221,11 +220,11 @@
                 clickedTextElement.style.fontWeight = fontWeightSlider.value;
 
                 // Apply color if it's changed, otherwise keep the initial color
-                if (colorPicker.value !== initialColor) {
-                    clickedTextElement.style.color = colorPicker.value;
-                } else {
-                    clickedTextElement.style.color = initialColor;
-                }
+                // if (colorPicker.value !== initialColor) {
+                //     clickedTextElement.style.color = colorPicker.value;
+                // } else {
+                //     clickedTextElement.style.color = initialColor;
+                // }
             }
         }
 
@@ -368,12 +367,9 @@
             // Restore the original content of the page after printing or canceling print
             document.body.innerHTML = originalContent;
 
-            // Re-attach event listeners and re-initialize draggable elements
-            restoreOriginalState();
+            // Re-attach event listeners and re-initialize draggable elements after a short delay
+            setTimeout(restoreOriginalState, 100);
         }
-
-
-
 
         // Function to re-attach event listeners and re-initialize draggable elements
         function restoreOriginalState() {
@@ -382,6 +378,11 @@
 
             // Re-initialize draggable elements
             initializeDraggableElements();
+
+            // Re-apply styles, margins, paddings, etc.
+            applyStyle();
+            applyMargin();
+            applyPadding();
         }
 
         // Function to attach event listeners to text elements
@@ -389,12 +390,10 @@
             const textElements = document.getElementsByClassName('text');
             for (let i = 0; i < textElements.length; i++) {
                 textElements[i].addEventListener('click', function () {
-                    
+                    setInitialValues(this);
                 });
             }
         }
-
-
 
         // Function to initialize draggable elements
         function initializeDraggableElements() {
@@ -404,6 +403,40 @@
                 $("#text2").draggable();
             });
         }
+
+        // Function to set initial values of sliders and color picker based on clicked text element
+        function setInitialValues(element) {
+            fontSizeSlider.value = parseInt(window.getComputedStyle(element).fontSize);
+            fontWeightSlider.value = parseInt(window.getComputedStyle(element).fontWeight);
+            colorPicker.value = window.getComputedStyle(element).color;
+
+            // Store the initial color of the clicked text element
+            initialColor = colorPicker.value;
+
+            // Get the margin and padding values of the clicked element
+            const computedStyle = window.getComputedStyle(element);
+            const marginTop = parseInt(computedStyle.marginTop);
+            const marginLeft = parseInt(computedStyle.marginLeft);
+            const marginBottom = parseInt(computedStyle.marginBottom);
+            const marginRight = parseInt(computedStyle.marginRight);
+            const paddingTop = parseInt(computedStyle.paddingTop);
+            const paddingLeft = parseInt(computedStyle.paddingLeft);
+            const paddingBottom = parseInt(computedStyle.paddingBottom);
+            const paddingRight = parseInt(computedStyle.paddingRight);
+
+            // Update the sliders with the margin and padding values
+            marginTopSlider.value = marginTop;
+            marginLeftSlider.value = marginLeft;
+            marginBottomSlider.value = marginBottom;
+            marginRightSlider.value = marginRight;
+            paddingTopSlider.value = paddingTop;
+            paddingLeftSlider.value = paddingLeft;
+            paddingBottomSlider.value = paddingBottom;
+            paddingRightSlider.value = paddingRight;
+        }
+
+        // Call the function to initialize draggable elements initially
+        initializeDraggableElements();
 
 
 
