@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Drag and Drope UI</title>
-    
+
     <link rel="stylesheet" href="style-new.css">
-    
+
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
@@ -24,59 +24,164 @@
 
                         <div id="page">
                             <div class="page-contents">
-                                <h3 id="text1" class="text">Text 1</h3>
-                                <p id="name">Name: John Doe</p>
-                                <p id="company">Company: ABC Corporation</p>
-                                <p id="designation">Designation: CEO</p>
-                                <div id="qrCode"></div>
+
+                                <h3 id="eventname" onclick="selectElement('eventname')">Event Name</h3>
+                                <p id="name" onclick="selectElement('name')">Name</p>
+                                <p id="company" onclick="selectElement('company')">Company</p>
+                                <p id="designation" onclick="selectElement('designation')">Designation</p>
+
+
+                                <img src="qr.png" id="qrImage" alt="">
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- <h3 id="eventname" class="text">Event Name</h3>
+                                <p id="name" class="text">Name</p>
+                                <p id="company" class="text">Company</p>
+                                <p id="designation" class="text">Designation</p> -->
+
 
                 <div class="configuration_div">
-                    <div class="page_select">
-                        <div id="content">
-                            <label for="pagesize">Select Page Size:</label>
-                       
-                            
-                            <select id="pagesize" class="form-select page-select" onchange="changePageSize()">
-                                <option value="a6">A6</option>
-                                <option value="a4">A4</option>
-                                <option value="a5">A5</option>
-                                <option value="custom">Custom</option>
-                            </select>
-                            <div id="customSizeInputs" style="display:none;">
-                                <div class="width_height_flex_row">
-                                    <div class="width">
-                                        <div class="label_input">
-                                            <label for="customWidth">Width:</label>
-                                            <input class="form-control" type="number" id="customWidth" min="1">
-                                        </div>
-                                        <select id="widthUnit" class="form-select">
-                                            <option value="mm">mm</option>
-                                            <option value="cm">cm</option>
-                                            <option value="px">px</option>
-                                        </select>
-                                    </div>
-                                    <div class="height">
-                                        <div class="label_input">
-                                            <label for="customHeight">Height:</label>
-                                            <input class="form-control" type="number" id="customHeight" min="1">
-                                        </div>
 
-                                        <select id="heightUnit" class="form-select">
-                                            <option value="mm">mm</option>
-                                            <option value="cm">cm</option>
-                                            <option value="px">px</option>
-                                        </select>
+                    <div class="accordion" id="accordionExample">
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#pageSelect" aria-expanded="true" aria-controls="pageSelect">
+                                    Change page
+                                </button>
+                            </h2>
+                            <div id="pageSelect" class="accordion-collapse collapse show"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="page_select">
+                                        <div id="content">
+                                            <label>Select Page Size:</label>
+                                            <div id="pageButtons">
+                                                <button id="a4" class="page-button"
+                                                    onclick="changePageSize('a4')">A4</button>
+                                                <button id="a5" class="page-button"
+                                                    onclick="changePageSize('a5')">A5</button>
+                                                <button id="a6" class="page-button"
+                                                    onclick="changePageSize('a6')">A6</button> <br>
+                                                <button id="custom" class="page-button custom-btn"
+                                                    onclick="changePageSize('custom')">Custom</button>
+                                            </div>
+                                            <div id="customSizeInputs" style="display:none;">
+                                                <div class="width_height_flex_row">
+                                                    <div class="width">
+                                                        <div class="label_input">
+                                                            <label for="customWidth">Width:</label>
+                                                            <input class="form-control" type="number" id="customWidth"
+                                                                min="1">
+                                                        </div>
+                                                        <select id="widthUnit" class="form-select">
+                                                            <option value="mm">mm</option>
+                                                            <option value="cm">cm</option>
+                                                            <option value="px">px</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="height">
+                                                        <div class="label_input">
+                                                            <label for="customHeight">Height:</label>
+                                                            <input class="form-control" type="number" id="customHeight"
+                                                                min="1">
+                                                        </div>
+
+                                                        <select id="heightUnit" class="form-select">
+                                                            <option value="mm">mm</option>
+                                                            <option value="cm">cm</option>
+                                                            <option value="px">px</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#qrImageResize" aria-expanded="false" aria-controls="qrImageResize">
+                                    Adjust QR Code
+                                </button>
+                            </h2>
+                            <div id="qrImageResize" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+
+                                    <div class="qr_code_width_height">
+                                        <label for="imageSize">QR Code Size:</label>
+                                        <input type="range" id="imageSize" min="50" max="300" value="100">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#textFields" aria-expanded="false" aria-controls="textFields">
+                                    Text Field
+                                </button>
+                            </h2>
+                            <div id="textFields" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="font_size">
+                                        <label for="fontSize">Font Size</label>
+
+                                        <div class="buttons">
+                                            <button onclick="changeFontSize('decrease')"><i
+                                                    class="ri-subtract-line"></i></button>
+
+                                            <button onclick="changeFontSize('increase')"><i
+                                                    class="ri-add-line"></i></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="font_weight">
+                                        <label for="fontWeight">Font Weight</label>
+
+                                        <div class="buttons">
+                                            <button onclick="changeFontWeight('decrease')"><i
+                                                    class="ri-subtract-line"></i></button>
+                                            <button onclick="changeFontWeight('increase')"><i
+                                                    class="ri-add-line"></i></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="text_alignment">
+                                        <label for="textAlignment">Text Alignment</label>
+
+                                        <div class="buttons">
+                                            <button onclick="alignText('left')"><i class="ri-align-left"></i></button>
+                                            <button onclick="alignText('center')"><i class="ri-align-center"></i></button>
+                                            <button onclick="alignText('right')"><i class="ri-align-right"></i></button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
                     </div>
+
+
+
+
+
+
+
+
+
 
                 </div>
             </div>
@@ -90,45 +195,58 @@
 
 
     <script>
+
+        $(function () {
+            $("#eventname").draggable();
+            $("#name").draggable();
+            $("#company").draggable();
+            $("#designation").draggable();
+            $("#qrImage").draggable();
+        });
+
+
+
         // Page Select change start
 
-
-
-
-        function changePageSize() {
-            var selectBox = document.getElementById("pagesize");
-            var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        function changePageSize(pageSize) {
             var page = document.getElementById("page");
             var customSizeInputs = document.getElementById("customSizeInputs");
 
-            if (selectedValue === "a4") {
+            if (pageSize === "a4") {
                 page.style.width = "210mm";
                 page.style.height = "297mm";
                 customSizeInputs.style.display = "none";
-            } else if (selectedValue === "a5") {
+            } else if (pageSize === "a5") {
                 page.style.width = "148mm";
                 page.style.height = "210mm";
                 customSizeInputs.style.display = "none";
-            } else if (selectedValue === "custom") {
+            } else if (pageSize === "custom") {
                 customSizeInputs.style.display = "block";
                 page.style.width = ""; // Reset custom size
                 page.style.height = ""; // Reset custom size
-            }
-            else if (selectedValue === "a6") {
+            } else if (pageSize === "a6") {
                 page.style.width = "105mm";
                 page.style.height = "148mm";
                 customSizeInputs.style.display = "none";
             }
+
+            // Set active class to the selected button
+            var buttons = document.querySelectorAll(".page-button");
+            buttons.forEach(button => {
+                button.classList.remove("active");
+            });
+            document.getElementById(pageSize).classList.add("active");
         }
 
         // Trigger initial page size setting
-        changePageSize();
+        changePageSize('a6'); // Select A6 size by default
 
         // Listen for changes in custom width and height inputs
         document.getElementById("customWidth").addEventListener("input", updatePageSize);
         document.getElementById("customHeight").addEventListener("input", updatePageSize);
         document.getElementById("widthUnit").addEventListener("change", updatePageSize);
         document.getElementById("heightUnit").addEventListener("change", updatePageSize);
+
 
         function updatePageSize() {
             var width = document.getElementById("customWidth").value;
@@ -152,46 +270,100 @@
 
             page.style.width = width + "mm";
             page.style.height = height + "mm";
+
+            // Deselect any previously selected page size button
+            var buttons = document.querySelectorAll(".page-button");
+            buttons.forEach(button => {
+                button.classList.remove("active");
+            });
         }
 
         // Page Select change End
 
 
-        // Function to generate QR code
-        function generateQRCode(text, elementId) {
-            var qrCodeElement = document.getElementById(elementId);
-            qrCodeElement.innerHTML = ""; // Clear previous QR code if any
-            new QRCode(qrCodeElement, {
-                text: text,
-                width: 100, // Adjust as needed
-                height: 100 // Adjust as needed
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const image = document.getElementById("qrImage");
+
+            // Function to update image size
+            function updateImageSize() {
+                const size = document.getElementById("imageSize").value;
+                image.style.width = size + "px";
+                image.style.height = "auto";
+            }
+
+            // Event listener for image size slider input
+            document.getElementById("imageSize").addEventListener("input", function () {
+                updateImageSize();
             });
+        });
+
+
+        var selectedElement;
+
+        function selectElement(elementId) {
+            // Remove selected class from previously selected element
+            if (selectedElement) {
+                selectedElement.classList.remove('selected');
+            }
+
+            // Select the new element
+            selectedElement = document.getElementById(elementId);
+            selectedElement.classList.add('selected');
         }
 
-        // Update page content with name, company name, designation, and QR code
-        function updatePageContent() {
-            var name = "John Doe"; // Replace with actual name
-            var company = "ABC Corporation"; // Replace with actual company name
-            var designation = "CEO"; // Replace with actual designation
-            var qrText = name + "\n" + company + "\n" + designation;
+        function changeFontSize(action) {
+            if (!selectedElement) return;
 
-            // Update text elements
-            document.getElementById("name").textContent = "Name: " + name;
-            document.getElementById("company").textContent = "Company: " + company;
-            document.getElementById("designation").textContent = "Designation: " + designation;
+            var currentSize = parseFloat(window.getComputedStyle(selectedElement, null).getPropertyValue('font-size'));
+            var newSize;
 
-            // Generate QR code
-            generateQRCode(qrText, "qrCode");
+            if (action === 'increase') {
+                newSize = currentSize + 2;
+            } else if (action === 'decrease') {
+                newSize = currentSize - 2;
+            }
+
+            selectedElement.style.fontSize = newSize + 'px';
         }
 
-        // Call updatePageContent to populate the page initially
-        updatePageContent();
+        function changeFontWeight(action) {
+            if (!selectedElement) return;
+
+            var currentWeight = parseInt(window.getComputedStyle(selectedElement, null).getPropertyValue('font-weight'));
+            var newWeight;
+
+            if (action === 'increase') {
+                newWeight = currentWeight + 100;
+            } else if (action === 'decrease') {
+                newWeight = currentWeight - 100;
+            }
+
+            selectedElement.style.fontWeight = newWeight;
+        }
+
+        function alignText(align) {
+            if (!selectedElement) return;
+
+            if (align === 'left') {
+                selectedElement.style.textAlign = 'left';
+            } else if (align === 'center') {
+                selectedElement.style.textAlign = 'center';
+            } else if (align === 'right') {
+                selectedElement.style.textAlign = 'right';
+            }
+        }
 
 
 
 
         
 
+        // margin and padding
+
+        
 
     </script>
 </body>
