@@ -11,6 +11,15 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
 
 </head>
 
@@ -31,16 +40,11 @@
                                 <p id="designation" onclick="selectElement('designation')">Designation</p>
 
 
-                                <img src="qr.png" id="qrImage" alt="">
+                                <img src="qr.png" onclick="selectElement('qrImage')" id="qrImage" alt="">
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- <h3 id="eventname" class="text">Event Name</h3>
-                                <p id="name" class="text">Name</p>
-                                <p id="company" class="text">Company</p>
-                                <p id="designation" class="text">Designation</p> -->
 
 
                 <div class="configuration_div">
@@ -161,26 +165,138 @@
 
                                         <div class="buttons">
                                             <button onclick="alignText('left')"><i class="ri-align-left"></i></button>
-                                            <button onclick="alignText('center')"><i class="ri-align-center"></i></button>
+                                            <button onclick="alignText('center')"><i
+                                                    class="ri-align-center"></i></button>
                                             <button onclick="alignText('right')"><i class="ri-align-right"></i></button>
                                         </div>
+                                    </div>
+
+
+                                    <div class="textcolor">
+                                        <label for="textColorPicker">Text Color:</label>
+                                        <input type="color" id="textColorPicker" onchange="changeTextColor()">
+                                    </div>
+
+                                    <div class="fontfamily">
+                                        <label for="fontFamilySelector">Font Family:</label>
+                                        <select id="fontFamilySelector" class="form-control"
+                                            onchange="changeFontFamily()">
+                                            <option value="Roboto, sans-serif">Roboto</option>
+
+                                            <option value="Noto Sans, sans-serif">Noto Sans</option>
+                                            <option value="Montserrat, sans-serif">Montserrat</option>
+                                            <option value="Poppins, sans-serif">Poppins</option>
+
+                                        </select>
                                     </div>
 
                                 </div>
                             </div>
                         </div>
 
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#hideElements" aria-expanded="false" aria-controls="hideElements">
+                                    Hide Elements
+                                </button>
+                            </h2>
+                            <div id="hideElements" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
 
+                                    <div class="hide_buttons">
+
+                                        <div class="evenet_name item">
+                                            <h6>Event Name</h6>
+                                            <button id="toggleEventName"
+                                                onclick="toggleVisibility('eventname', 'toggleEventName')"><i
+                                                    class="fa-regular fa-eye"></i></button>
+
+                                        </div>
+
+                                        <div class="name item">
+                                            <h6>Name</h6>
+                                            <button id="toggleName" onclick="toggleVisibility('name', 'toggleName')"><i
+                                                    class="fa-regular fa-eye"></i></button>
+                                        </div>
+
+                                        <div class="company_name item">
+                                            <h6>Company Name</h6>
+                                            <button id="toggleCompany"
+                                                onclick="toggleVisibility('company', 'toggleCompany')"><i
+                                                    class="fa-regular fa-eye"></i></button>
+                                        </div>
+
+                                        <div class="designation item">
+                                            <h6>Designation</h6>
+                                            <button id="toggleDesignation"
+                                                onclick="toggleVisibility('designation', 'toggleDesignation')"><i
+                                                    class="fa-regular fa-eye"></i></button>
+                                        </div>
+
+
+                                        <div class="qr-image item">
+                                            <h6>QR Image</h6>
+                                            <button id="toggleQRCode"
+                                                onclick="toggleOpacity('qrImage', 'toggleQRCode')"><i
+                                                    class="fa-regular fa-eye"></i></button>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#marginPadding" aria-expanded="false" aria-controls="marginPadding">
+                                    Adjust Margin and Padding
+                                </button>
+                            </h2>
+                            <div id="marginPadding" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <label for="marginTopRange">Margin Top:</label>
+                                    <input type="range" id="marginTopRange" min="0" max="200" value="0"
+                                        onchange="adjustMargin()">
+                                    <label for="marginBottomRange">Margin Bottom:</label>
+                                    <input type="range" id="marginBottomRange" min="0" max="200" value="0"
+                                        onchange="adjustMargin()">
+                                    <label for="marginLeftRange">Margin Left:</label>
+                                    <input type="range" id="marginLeftRange" min="0" max="200" value="0"
+                                        onchange="adjustMargin()">
+                                    <label for="marginRightRange">Margin Right:</label>
+                                    <input type="range" id="marginRightRange" min="0" max="200" value="0"
+                                        onchange="adjustMargin()">
+
+                                    <label for="paddingTopRange">Padding Top:</label>
+                                    <input type="range" id="paddingTopRange" min="0" max="200" value="0"
+                                        onchange="adjustPadding()">
+                                    <label for="paddingBottomRange">Padding Bottom:</label>
+                                    <input type="range" id="paddingBottomRange" min="0" max="200" value="0"
+                                        onchange="adjustPadding()">
+                                    <label for="paddingLeftRange">Padding Left:</label>
+                                    <input type="range" id="paddingLeftRange" min="0" max="200" value="0"
+                                        onchange="adjustPadding()">
+                                    <label for="paddingRightRange">Padding Right:</label>
+                                    <input type="range" id="paddingRightRange" min="0" max="200" value="0"
+                                        onchange="adjustPadding()">
+
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
 
 
 
-
-
-
-
-
+                    <div class="print_btn mt-5 p-2">
+                        <button class="btn btn-primary" onclick="printPage()">Print</button>
+                    </div>
 
 
                 </div>
@@ -282,7 +398,7 @@
 
 
 
-
+        // qr image size start
 
         document.addEventListener("DOMContentLoaded", function () {
             const image = document.getElementById("qrImage");
@@ -300,6 +416,10 @@
             });
         });
 
+        // qr image size end
+
+
+        // font size and font weight start
 
         var selectedElement;
 
@@ -344,6 +464,11 @@
             selectedElement.style.fontWeight = newWeight;
         }
 
+        // font size and font weight end
+
+
+        // text alignment start
+
         function alignText(align) {
             if (!selectedElement) return;
 
@@ -356,14 +481,246 @@
             }
         }
 
+        // text alignment end
+
+
+        // element hide start
+
+        function toggleVisibility(elementId) {
+            var element = document.getElementById(elementId);
+            if (element.style.display === 'none') {
+                element.style.display = 'block';
+            } else {
+                element.style.display = 'none';
+            }
+
+
+        }
+
+
+        function toggleVisibility(elementId, buttonId) {
+            var element = document.getElementById(elementId);
+            var button = document.getElementById(buttonId);
+
+            if (element.style.display === 'none') {
+                element.style.display = 'block';
+                button.style.opacity = '1';
+            } else {
+                element.style.display = 'none';
+                button.style.opacity = '0.5';
+            }
+        }
+
+        function toggleOpacity(elementId, buttonId) {
+            var element = document.getElementById(elementId);
+            var button = document.getElementById(buttonId);
+
+            if (element.style.opacity === '0') {
+                element.style.opacity = '1';
+                button.style.opacity = '0.5';
+            } else {
+                element.style.opacity = '0';
+                button.style.opacity = '1';
+            }
+        }
+
+
+        // element hide end
+
+
+        // margin padding start
+
+        function selectElement(elementId) {
+            selectedElementId = elementId;
+            updateSliders();
+        }
+
+        function updateSliders() {
+            var selectedElement = document.getElementById(selectedElementId);
+            if (selectedElement) {
+                document.getElementById("marginTopRange").value = parseInt(selectedElement.style.marginTop) || 0;
+                document.getElementById("marginBottomRange").value = parseInt(selectedElement.style.marginBottom) || 0;
+                document.getElementById("marginLeftRange").value = parseInt(selectedElement.style.marginLeft) || 0;
+                document.getElementById("marginRightRange").value = parseInt(selectedElement.style.marginRight) || 0;
+                document.getElementById("paddingTopRange").value = parseInt(selectedElement.style.paddingTop) || 0;
+                document.getElementById("paddingBottomRange").value = parseInt(selectedElement.style.paddingBottom) || 0;
+                document.getElementById("paddingLeftRange").value = parseInt(selectedElement.style.paddingLeft) || 0;
+                document.getElementById("paddingRightRange").value = parseInt(selectedElement.style.paddingRight) || 0;
+            }
+        }
+
+        function adjustMargin() {
+            var marginTopValue = document.getElementById("marginTopRange").value;
+            var marginBottomValue = document.getElementById("marginBottomRange").value;
+            var marginLeftValue = document.getElementById("marginLeftRange").value;
+            var marginRightValue = document.getElementById("marginRightRange").value;
+            var selectedElement = document.getElementById(selectedElementId);
+            if (selectedElement) {
+                selectedElement.style.marginTop = marginTopValue + "px";
+                selectedElement.style.marginBottom = marginBottomValue + "px";
+                selectedElement.style.marginLeft = marginLeftValue + "px";
+                selectedElement.style.marginRight = marginRightValue + "px";
+            }
+        }
+
+        function adjustPadding() {
+            var paddingTopValue = document.getElementById("paddingTopRange").value;
+            var paddingBottomValue = document.getElementById("paddingBottomRange").value;
+            var paddingLeftValue = document.getElementById("paddingLeftRange").value;
+            var paddingRightValue = document.getElementById("paddingRightRange").value;
+            var selectedElement = document.getElementById(selectedElementId);
+            if (selectedElement) {
+                selectedElement.style.paddingTop = paddingTopValue + "px";
+                selectedElement.style.paddingBottom = paddingBottomValue + "px";
+                selectedElement.style.paddingLeft = paddingLeftValue + "px";
+                selectedElement.style.paddingRight = paddingRightValue + "px";
+            }
+        }
+
+        // margin padding end
 
 
 
-        
+        //  color changing start
 
-        // margin and padding
+        var selectedElementId = null;
 
-        
+        function selectElement(elementId) {
+            selectedElementId = elementId;
+            var textColorPicker = document.getElementById('textColorPicker');
+            var selectedElement = document.getElementById(elementId);
+            textColorPicker.value = selectedElement.style.color || ''; // Set color picker value to current text color or default to empty string
+        }
+
+        function changeTextColor() {
+            var textColorPicker = document.getElementById('textColorPicker');
+            var color = textColorPicker.value;
+            var selectedElement = document.getElementById(selectedElementId);
+            selectedElement.style.color = color;
+        }
+
+        // color changing end
+
+        var selectedElementId = null;
+
+        function selectElement(elementId) {
+            selectedElementId = elementId;
+            var selectedElement = document.getElementById(elementId);
+            var fontFamilySelector = document.getElementById('fontFamilySelector');
+            fontFamilySelector.value = getComputedStyle(selectedElement).fontFamily;
+        }
+
+        function changeFontFamily() {
+            var fontFamilySelector = document.getElementById('fontFamilySelector');
+            var fontFamily = fontFamilySelector.value;
+            var selectedElement = document.getElementById(selectedElementId);
+            selectedElement.style.fontFamily = fontFamily;
+        }
+
+        document.getElementById("pagesize").addEventListener("change", function () {
+            var selectedSize = this.value;
+            if (selectedSize === "custom") {
+                // Show custom size input fields or implement custom size logic here
+                console.log("Custom size selected!");
+            } else {
+                // Set the page size according to the selected option (A4 or A5)
+                setPageSize(selectedSize);
+            }
+        });
+
+        function setPageSize(size) {
+            console.log("Page size set to " + size);
+            // Implement logic to adjust the page size based on the selected option
+        }
+
+
+        function printPage() {
+            var pageContent = document.getElementById("page").innerHTML;
+            var originalContent = document.body.innerHTML;
+
+            // Set the content of the entire page to the content of the div with id "page"
+            document.body.innerHTML = pageContent;
+
+            // Print the page
+            window.print();
+
+            // Restore the original content of the page after printing or canceling print
+            document.body.innerHTML = originalContent;
+
+            // Re-attach event listeners and re-initialize draggable elements after a short delay
+            setTimeout(restoreOriginalState, 100);
+        }
+
+        // Function to re-attach event listeners and re-initialize draggable elements
+        function restoreOriginalState() {
+            // Re-attach event listeners
+            attachEventListeners();
+
+            // Re-initialize draggable elements
+            initializeDraggableElements();
+
+            // Re-apply styles, margins, paddings, etc.
+            applyStyle();
+            applyMargin();
+            applyPadding();
+        }
+
+
+        // Function to attach event listeners to text elements
+        function attachEventListeners() {
+            const textElements = document.getElementsByClassName('text');
+            for (let i = 0; i < textElements.length; i++) {
+                textElements[i].addEventListener('click', function () {
+                    setInitialValues(this);
+                });
+            }
+        }
+
+        // Function to initialize draggable elements
+        function initializeDraggableElements() {
+            $(function () {
+                $("#eventname").draggable();
+                $("#name").draggable();
+                $("#company").draggable();
+                $("#designation").draggable();
+                $("#qrImage").draggable();
+            });
+        }
+
+        // Function to set initial values of sliders and color picker based on clicked text element
+        function setInitialValues(element) {
+            fontSizeSlider.value = parseInt(window.getComputedStyle(element).fontSize);
+            fontWeightSlider.value = parseInt(window.getComputedStyle(element).fontWeight);
+            colorPicker.value = window.getComputedStyle(element).color;
+
+            // Store the initial color of the clicked text element
+            initialColor = colorPicker.value;
+
+            // Get the margin and padding values of the clicked element
+            const computedStyle = window.getComputedStyle(element);
+            const marginTop = parseInt(computedStyle.marginTop);
+            const marginLeft = parseInt(computedStyle.marginLeft);
+            const marginBottom = parseInt(computedStyle.marginBottom);
+            const marginRight = parseInt(computedStyle.marginRight);
+            const paddingTop = parseInt(computedStyle.paddingTop);
+            const paddingLeft = parseInt(computedStyle.paddingLeft);
+            const paddingBottom = parseInt(computedStyle.paddingBottom);
+            const paddingRight = parseInt(computedStyle.paddingRight);
+
+            // Update the sliders with the margin and padding values
+            marginTopSlider.value = marginTop;
+            marginLeftSlider.value = marginLeft;
+            marginBottomSlider.value = marginBottom;
+            marginRightSlider.value = marginRight;
+            paddingTopSlider.value = paddingTop;
+            paddingLeftSlider.value = paddingLeft;
+            paddingBottomSlider.value = paddingBottom;
+            paddingRightSlider.value = paddingRight;
+        }
+
+        // Call the function to initialize draggable elements initially
+        initializeDraggableElements();
+
 
     </script>
 </body>
